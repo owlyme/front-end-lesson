@@ -1,0 +1,13 @@
+{
+  "name": "vue-mp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.9"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "auto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "sass scss/index.scss css/index.css --watch",
+    "serve": "browser-sync . --files \"css/*.css\"",
+    "start": "run-p build serve"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "sass": "^1.29.0"
+  }
+}

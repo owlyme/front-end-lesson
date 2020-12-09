@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 通过给 script 标签设置 type= module 属性 -->
+  <script type="module">
+    console.log('this is es6 module')
+  </script>
+  <!-- 自动采用严格模式 use strict -->
+  <script type="module">
+    console.log(this)
+  </script>
+  <!-- 每一个  script type="module" 都有独立的作用域-->
+  <script type="module">
+    let foo = '123'
+    console.log(foo) // 123
+  </script>
+   <script type="module">
+    console.log(foo) // index.html:23 Uncaught ReferenceError: foo is not defined
+  </script>
+  <!-- esm 是通过 CORS 去请求外部js模块 -->
+  <!-- ESM 的 script 标签会延迟执行脚本 defer 属性-->
+</body>
+</html>
