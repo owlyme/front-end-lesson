@@ -22,7 +22,7 @@
     - extend
         - stylelint-config-standard
 
-
+## prettier
 
 
 
