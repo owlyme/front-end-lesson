@@ -1,5 +1,7 @@
 ## 代码风格
 1. 团队需要规矩
+
+
 ## eslint
 1. 初始化
 2. eslint --init
@@ -17,5 +19,30 @@
 4. 初始化
     - install stylelint
     - .stylelintrc.js
-    - extend 
+    - extend
         - stylelint-config-standard
+
+
+
+
+
+
+
+## git hooks介绍
+1. husky
+  ```
+  husky: {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  }
+  ```
+2. lint-staged
+  ```
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
+  }
+  ```
