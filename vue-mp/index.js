@@ -1,21 +1,21 @@
-var babel = require("@babel/core");
-const fs = require('fs')
-// import { transform } from "@babel/core";
-// import * as babel from "@babel/core";
-
+const babel = require("@babel/core");
+const traverse = require("@babel/traverse").default;
+const generate = require("@babel/generator").default;
+const fs = require('fs');
 const filename = "./demo.js";
 const source = fs.readFileSync(filename, "utf8");
-
-// Load and compile file normally, but skip code generation.
-
-const { ast } = babel.transformSync(source, { filename, ast: true, code: false });
-console.log(JSON.stringify(ast.program.body))
-
-// Minify the file in a second pass and generate the output code here.
-// const { code, map } = babel.transformFromAstSync(ast, source, {
-//   filename,
-//   presets: ["minify"],
-//   babelrc: false,
-//   configFile: false,
-// });
-
+// https://www.jb51.net/article/173610.htm
+// 1. 拿到ast
+let ast = babel.parse(source);
+// 2. 转化对应的值
+traverse(ast, {
+  enter(path) {
+    // console.log(path)
+    if (path.isIdentifier({ name: "a" })) {
+      path.node.name = "x";
+    }
+  }
+});
+// 3. 生成新的代码
+let newcode = generate(ast, {}, source)
+console.log(newcode)
