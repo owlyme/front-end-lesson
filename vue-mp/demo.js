@@ -1,5 +1,5 @@
-var a = 12;
-
-function fn() {
-  console.log(123)
+var a = 1;
+var o = {
+    xy: 123123,
+    zzzzzzzzz: 222222222
 }
