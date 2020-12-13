@@ -148,6 +148,9 @@
         - [chunkhash]
         - [contenthash]
 
+## jsDoc 是什么
+1. @type
+
 
 
 

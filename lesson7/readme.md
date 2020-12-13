@@ -1,8 +1,44 @@
+
 ### hash
 1. hash模式是基于锚点， 以及onHashChange事件
+    - url 中 # 后面的内容地址作为路径地址
+    - 监听 hashchange 事件
+    - 根据当前路由地址找到对应组件重渲染
 2. history模式是基于HTML5中的history API
-    - history.pushState() // 不发送请求
-    - history.replaceState()
+    - history.pushState()， history.replaceState() //
+        - 改变地址栏 历史记录
+        - 不发送请求
+    - 监听 popstate 事件
+    - 根据当前路由地址找到对应组件重渲染
+
+### router
+1. 页面组件用 props.id 代替 this.$route.params.id
+2. 组件 里拿不到 this.$route 可以去拿 this.$router.currentRoute
+```
+vue-router
+--------------------
+options
+data
+routeMap
+--------------------
+constructor
+install
+
+```
+### 数据驱动
+1. 响应式数据
+    - 数据模型内的数据发生变化，试图也会发生变化，不需要用户直接操作dom
+2. 双向绑定
+    - 数据改变视图改变
+    - 视图改变数据也改变（表单元素）
+3. 数据响应式
+
+### vue响应式原理
+1. vue2.x Object.defineProperty
+2. vue3.0 Proxy
+
+### 发布订阅模式和观察者模式
+
 
 ### vue 编译器
 将template转换程render 函数 render生成虚拟dom
