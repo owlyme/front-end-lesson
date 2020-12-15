@@ -78,3 +78,57 @@ const MyVisitor = {
 
 
 ## babel plugin
+
+## 转换操作
+1. 访问
+    - 访问当前node 的属性
+        - path.node.property
+    - 访问当前属性的内部path
+        - path.get('propertyName') 
+        - path.get('body.0')
+            - body 为数组， 0 为index
+2. 检查节点的类型
+    - t.isIdentifier(path.node.left)
+      - t.isX: X 为node的type 值
+    - t.isIdentifier(path.node.left, { name: "n" }))
+      - 第二个参数是 属性名：值
+
+3. 检查Path 类型
+    - path.get('left').isIdentifier({name: 'n'})
+
+4. 检查标识符是否被引用
+    - path.isReferencedIdentifier()
+
+5. 找到特定的父path
+    - path.findParent(path => path.isObjectExpression())
+    - 遍历当前节点
+        - path.find((path) => path.isObjectExpression());
+    - 最接近的父函数或程序
+        - path.getFunctionParent();
+    - 向上遍历语法树，直到找到在列表中的父节点路径
+        - path.getStatementParent();
+
+6. 获取同级路径
+    - 使用path.inList来判断路径是否有同级节点，
+    - 使用path.getSibling(index)来获得同级路径,
+    - 使用 path.key获取路径所在容器的索引,
+    - 使用 path.container获取路径的容器（包含所有同级节点的数组）
+    - 使用 path.listKey获取容器的key
+7. 停止遍历
+    - return 
+    - path.skip() 跳过遍历当前路径的子路径. 
+    - path.stop() 完全停止遍历.
+## 处理
+1. 替换一个节点
+    - path.replaceWith(node) 替换当前节点
+2. 用多节点替换单节点
+    - path.replaceWithMultiple([node])
+3. 用字符串源码替换节点
+    - path.replaceWithSourceString
+4. 插入兄弟节点
+    
+8. 生成基本节点
+    - string
+      - t.stringLiteral("Is this the real life?")
+    - number
+      - t.numericLiteral(2)

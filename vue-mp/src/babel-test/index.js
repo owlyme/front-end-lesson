@@ -1,10 +1,11 @@
 import { parse } from "@babel/core";
 import traverse from "@babel/traverse";
-import t from "@babel/types";
 import generate from "@babel/generator";
-import template from "@babel/template";
+import * as t from "@babel/types";
 import fs from 'fs';
 import path from 'path';
+import visitor from "./visitor"
+
 
 const resolve = (filepath) => path.resolve(__dirname, filepath)
 const filename = "./vue.js";
@@ -13,13 +14,19 @@ let source = fs.readFileSync(resolve(filename), "utf8");
 // https://blog.csdn.net/w993263495/article/details/84985788
 // https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
 // 1. 拿到ast
-source = `var a = 1;`
+source = `
+var a = 1; 
+aaa === bbb;
+function fn (n) {
+  return n * n
+}
+`
 
 let ast = parse(source, {
   sourceType: "module",
-  plugins: [
-    [resolve('./plugin.js'), { types: t }]
-  ]
+  // plugins: [
+  //   [resolve('./plugin.js'), { types: t }]
+  // ]
 });
 
 fs.writeFileSync(resolve('./ast.json'), JSON.stringify(ast.program.body, null, 2))
@@ -30,8 +37,8 @@ fs.writeFileSync(resolve('./ast.json'), JSON.stringify(ast.program.body, null, 2
   //     console.log("Visiting: " + path.node.name);
   //   }
   // };
-let datas = null
-traverse(ast);
+
+traverse(ast, visitor({ types: t }));
 
 
 // 3. 生成新的代码
