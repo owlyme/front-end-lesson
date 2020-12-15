@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.0/vue.min.js"></script> -->
+    <script src="/src/vue.js"></script>
+    <script src="/src/obsever.js"></script>
+
+</head>
+
+<body>
+    <h2>vue</h2>
+    <div id="app">
+        {{msg}} {{count}}
+    </div>
+    <script>
+        let vm = new MyVue({
+            el: '#app',
+            data: {
+                msg: 'message',
+                count: 123
+            }
+        })
+        console.log(vm)
+    </script>
+</body>
+
+</html>
