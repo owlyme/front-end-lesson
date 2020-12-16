@@ -24,7 +24,6 @@
         console.log("Called!");
       }
     };
-
     ```
 - 使用
   1. 可以把方法名用|分割成Idenfifier |MemberExpression形式的字符串，把同一个函数应用到多种访问节点。
@@ -126,8 +125,25 @@ const MyVisitor = {
 3. 用字符串源码替换节点
     - path.replaceWithSourceString
 4. 插入兄弟节点
-    
-8. 生成基本节点
+    - path.insertBefore
+    - path.insertAfter
+5. 插入到容器（container）中
+    - path.get('body').unshiftContainer('body', t.expressionStatement(t.stringLiteral('before'))
+    - path.get('body').pushContainer('body', t.expressionStatement(t.stringLiteral('after')))
+6. 删除一个节点
+    - path.remove();
+7. 替换父节点
+    - 只需使用parentPath：` path.parentPath </>调用 replaceWith </>即可
+8. 删除父节点 
+    - path.parentPath.remove();
+9. Scope（作用域）
+    - path.scope.hasBinding("n") : 检查本地变量是否被绑定
+    - path.scope.hasOwnBinding("n") 检查一个作用域是否有**自己的</>绑定：
+10. 创建一个 UID
+11. 重命名绑定及其引用
+    - path.scope.rename("n", "x");
+    - path.scope.rename("n");
+18. 生成基本节点
     - string
       - t.stringLiteral("Is this the real life?")
     - number

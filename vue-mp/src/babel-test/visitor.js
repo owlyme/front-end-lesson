@@ -28,8 +28,25 @@ export default function({ types: t }) {
 
     FunctionDeclaration(path) {
       // path.replaceWithSourceString(function add(a, b) { return a + b; });
-      path.insertBefore(t.expressionStatement(t.stringLiteral("Because I'm easy come, easy go.")));
-      path.insertAfter(t.expressionStatement(t.stringLiteral("A little high, little low.")));
+      // path.insertBefore(t.stringLiteral("Because I'm easy come, easy go."));
+      // path.insertAfter(t.expressionStatement(t.stringLiteral("A little high, little low.")));
+
+
+      if (path.scope.hasBinding("n")) {
+        // ...
+        console.log("n")
+      }
+
+      if (path.scope.hasBinding("c")) {
+        // ...
+        console.log("a", path.node.type)
+      }
+
+      if (path.scope.hasOwnBinding("n")) {
+        // ...
+        console.log("ownn")
+      }
+
     }
   };
 }

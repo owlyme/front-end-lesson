@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "node src/babel-test/index.js",
+    "v2p": "node src/vue-to-mp/index.js",
     "dev": "node index.js"
   },
   "devDependencies": {

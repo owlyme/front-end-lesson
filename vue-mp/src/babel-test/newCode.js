@@ -1,9 +1,7 @@
 var a = 1;
-aaa ** 2;
-"Because I'm easy come, easy go.";
+aaa === bbb;
 
 function fn(n) {
+  let c = 1;
   return n * n;
 }
-
-"A little high, little low.";

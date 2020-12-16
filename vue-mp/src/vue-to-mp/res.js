@@ -1,5 +1,4 @@
 Compontents({
-  //组件的对外属性
   properties: {
     max: {
       type: Number,
@@ -7,17 +6,26 @@ Compontents({
     }
   },
   data: {
-    num: 10000 // fn() {}
-
+    num: 10000,
+    b: 66,
+    arr: [1, 2, 4]
   },
   //组件的方法
   methods: {
     textFn() {
-      console.log(this.data.num);
+      this.data.arr.splice(1, 3);
+      this.max = 33;
+      this.triggerEvent('click', this.data.num);
     },
 
     onMyButtonTap: function () {
-      this.data.num = 666;
+      this.a = 44;
+      this.setData({
+        b: 666
+      });
+      this.setData({
+        num: 666
+      });
     }
   }
 });

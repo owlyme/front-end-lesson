@@ -137,14 +137,14 @@
   {
     "type": "FunctionDeclaration",
     "start": 26,
-    "end": 60,
+    "end": 72,
     "loc": {
       "start": {
         "line": 4,
         "column": 0
       },
       "end": {
-        "line": 6,
+        "line": 7,
         "column": 1
       }
     },
@@ -189,22 +189,22 @@
     "body": {
       "type": "BlockStatement",
       "start": 42,
-      "end": 60,
+      "end": 72,
       "loc": {
         "start": {
           "line": 4,
           "column": 16
         },
         "end": {
-          "line": 6,
+          "line": 7,
           "column": 1
         }
       },
       "body": [
         {
-          "type": "ReturnStatement",
+          "type": "VariableDeclaration",
           "start": 46,
-          "end": 58,
+          "end": 55,
           "loc": {
             "start": {
               "line": 5,
@@ -212,34 +212,104 @@
             },
             "end": {
               "line": 5,
+              "column": 11
+            }
+          },
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "start": 50,
+              "end": 55,
+              "loc": {
+                "start": {
+                  "line": 5,
+                  "column": 6
+                },
+                "end": {
+                  "line": 5,
+                  "column": 11
+                }
+              },
+              "id": {
+                "type": "Identifier",
+                "start": 50,
+                "end": 51,
+                "loc": {
+                  "start": {
+                    "line": 5,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 7
+                  },
+                  "identifierName": "c"
+                },
+                "name": "c"
+              },
+              "init": {
+                "type": "NumericLiteral",
+                "start": 54,
+                "end": 55,
+                "loc": {
+                  "start": {
+                    "line": 5,
+                    "column": 10
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 11
+                  }
+                },
+                "extra": {
+                  "rawValue": 1,
+                  "raw": "1"
+                },
+                "value": 1
+              }
+            }
+          ],
+          "kind": "let"
+        },
+        {
+          "type": "ReturnStatement",
+          "start": 58,
+          "end": 70,
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 2
+            },
+            "end": {
+              "line": 6,
               "column": 14
             }
           },
           "argument": {
             "type": "BinaryExpression",
-            "start": 53,
-            "end": 58,
+            "start": 65,
+            "end": 70,
             "loc": {
               "start": {
-                "line": 5,
+                "line": 6,
                 "column": 9
               },
               "end": {
-                "line": 5,
+                "line": 6,
                 "column": 14
               }
             },
             "left": {
               "type": "Identifier",
-              "start": 53,
-              "end": 54,
+              "start": 65,
+              "end": 66,
               "loc": {
                 "start": {
-                  "line": 5,
+                  "line": 6,
                   "column": 9
                 },
                 "end": {
-                  "line": 5,
+                  "line": 6,
                   "column": 10
                 },
                 "identifierName": "n"
@@ -249,15 +319,15 @@
             "operator": "*",
             "right": {
               "type": "Identifier",
-              "start": 57,
-              "end": 58,
+              "start": 69,
+              "end": 70,
               "loc": {
                 "start": {
-                  "line": 5,
+                  "line": 6,
                   "column": 13
                 },
                 "end": {
-                  "line": 5,
+                  "line": 6,
                   "column": 14
                 },
                 "identifierName": "n"
