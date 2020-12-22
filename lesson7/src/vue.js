@@ -1,36 +1,37 @@
 class MyVue {
-    constructor(param = {}) {
-        this.$options = param;
+  constructor(param = {}) {
+    this.$options = param;
 
-        this.$data = param.data;
+    this.$data = param.data;
 
-        this.init()
-    }
+    this.init()
+  }
 
-    init() {
-        document.querySelector(this.$options.el)
-        this.defineReact(this.$data)
-    }
+  init() {
+    this.$el = document.querySelector(this.$options.el)
+    this.defineReactive(this.$data)
+    new Compiler(this)
+  }
 
-    defineReact(data) {
-        new Observe(data)
-        Object.keys(data).forEach(key => {
-            Object.defineProperty(this, key, {
-                enumerable: true,
-                configurable: true,
-                get() {
-                    console.log('vue get')
-                    return data[key]
-                },
-                set(newVal) {
-                    console.log('vue set')
-                    if (newVal === data[key]) return;
+  defineReactive(data) {
+    new Observe(data);
+    Object.keys(data).forEach(key => {
+      Object.defineProperty(this, key, {
+        enumerable: true,
+        configurable: true,
+        get() {
+          console.log('vue get')
+          return data[key]
+        },
+        set(newVal) {
+          console.log('vue set')
+          if (newVal === data[key]) return;
+          data[key] = newVal;
+        }
+      })
+    });
 
-                    data[key] = newVal;
-                }
-            })
-        })
-    }
+  }
 
 
 }
