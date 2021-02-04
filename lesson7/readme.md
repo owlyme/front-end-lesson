@@ -39,11 +39,31 @@ install
 
 ### 发布订阅模式和观察者模式
 
-
 ### vue 编译器
 将template转换程render 函数 render生成虚拟dom
 
 run-time 不包含 编译器
+
+### 虚拟DOM 
+
+## vue源码
+1. 定义 Vue 构造函数
+2. 初始化静态成员
+extend，component 
+3. 实列成员的定义
+```javaScript
+function Vue (options) {
+  this._init(options)
+}
+
+initMixin(Vue) // __init
+stateMixin(Vue) // set delete watch 
+eventsMixin(Vue) // emit on once off
+lifecycleMixin(Vue) 
+renderMixin(Vue)
+```
+
+
 ## init
 init  parent root event render provide/inject initState
 

@@ -35,12 +35,13 @@ class Compiler {
         });
         node.nodeValue = newstr;
       });
+
       let _key = _getKey(key);
       let pattern = new RegExp(`\\{\\{\\s\*${_key}\\s\*\\}\\}`);
       newstr = newstr.replace(pattern, this.vm[_key]);
     });
-    node.nodeValue = newstr;
 
+    node.nodeValue = newstr;
   }
   renderVText() {
 
