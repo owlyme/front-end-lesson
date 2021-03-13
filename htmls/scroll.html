@@ -46,46 +46,22 @@
   let listBox = document.getElementById("con")
 
 
-  // function throlle(cb, interval = 200) {
-  //   let timer = null;
-  //   let prevTime = Date.now();
-  //   return (arg) => {
-  //     let now = Date.now();
-  //     let leftTime = interval - (now - prevTime);
-
-  //     clearTimeout(timer);
-
-  //     if (leftTime <= 0) {
-  //       prevTime = now;
-  //       cb(arg)
-  //     } else {
-  //       timer = setTimeout(() => {
-  //         prevTime = now;
-  //         cb(arg)
-  //       }, leftTime)
-  //     }
-  //   }
-  // }
-
-
-
-  function throlle(callback, delay) {
-    let startTime = 0;
+  function throlle(cb, interval = 200) {
     let timer = null;
-    return function() {
-      //使用new Date().getTime(),这样首次操作一定会执行
-      let endTime = new Date().getTime();
-      //多次触发时执行clear,这样最后只会执行一次
+    let prevTime = Date.now();
+    return (arg) => {
+      let now = Date.now();
+      let leftTime = interval - (now - prevTime);
+
       clearTimeout(timer);
-      //第一次减法一定大雨delay,确保首次操作一定会执行
-      if (endTime - startTime > delay) {
-        callback()
-        startTime = new Date().getTime();
+
+      if (leftTime <= 0) {
+        prevTime = now;
+        cb(arg)
       } else {
-        //这里的目的是让最后一次执行
         timer = setTimeout(() => {
-          callback()
-        }, delay)
+          cb(arg)
+        }, leftTime)
       }
     }
   }
@@ -106,6 +82,7 @@
     }
 
     init() {
+      this.listLength = 30
       this.createListElement()
       this.getBoxHeight()
       this.watchBoxScroll()
@@ -134,25 +111,28 @@
         } else if (deltaY < 0) {
           // 向上滚动
         }
-
+        console.log(this.offsetTop)
         if (deltaY > 0 && this.offsetTop > (this.listBoxPaddingTop + this.boxHeight)) {
           console.log("rerender down ", this.offsetTop, this.listBoxPaddingTop + this.boxHeight)
           this.setListBoxOffset(deltaY > 0 ? "down" : "up");
           this.renderList();
-        } else if (deltaY < 0 && this.offsetTop <= (this.listBoxPaddingTop + this.boxHeight)) {
+        } else if (
+          deltaY < 0 &&
+          this.offsetTop <= (this.listBoxPaddingTop + this.boxHeight) &&
+          this.offsetTop >= 240 ||
+          this.offsetTop == 0
+        ) {
           console.log("rerender up ", this.offsetTop, (this.listBoxPaddingTop + this.boxHeight))
           this.setListBoxOffset(deltaY > 0 ? "down" : "up");
           this.renderList();
         }
-
-
-      }, 10);
+      }, 30);
 
       box.addEventListener("scroll", (e) => {
         deltaCurrY = this.offsetTop = e.target.scrollTop;
         deltaY = deltaCurrY - deltaPrevY;
         deltaPrevY = deltaCurrY;
-
+        console.log(this.listElementHeightsMap)
 
         tR()
       })
@@ -160,14 +140,15 @@
 
     getNextRederIndex() {
       let boxSize = this.box.getBoundingClientRect();
-      let list = document.querySelectorAll('.xy') || [];
+      // let list = document.querySelectorAll('.xy') || [];
+      let list = this.listElements
       let topItem = null
-      let index = 0
+      let index = null
 
       for (let i = 0; i < list.length; i++) {
         let item = list[i];
         let itemSize = item.getBoundingClientRect();
-        this.listElementHeights(item.dataset.index, itemSize.height)
+        this.listElementHeights(item.dataset.index, itemSize.height);
 
         if (itemSize.bottom >= boxSize.top) {
           topItem = item;
@@ -176,8 +157,13 @@
         }
       }
 
-      index = index > 5 ? index - 5 : 0
+      if (index === null) {
+        return null
+      }
+
+      index = index > 5 ? index - 5 : 0;
       topItem = list[index];
+
       return {
         nextStartIndex: Number(topItem.dataset.index),
         offsetTop: topItem.offsetTop,
@@ -191,14 +177,13 @@
         offsetTop,
         topItem
       } = this.getNextRederIndex()
-
+      if (!topItem) return;
       // let currentPT = this.offsetTop;
       // this.topCachedHeight += currentPT;
       // let firstChildHeight = this.getFirstLiHeight();
       // let cacheH = firstChildHeight;
       // currentPT = currentPT > cacheH ? currentPT - cacheH : currentPT;
       // let leftH = currentPT % firstChildHeight;
-
       // this.dataListOffsetIndex = Math.ceil(this.offsetTop / firstChildHeight);
       // this.listBox.style.paddingTop = currentPT - leftH - firstChildHeight + "px";
 
@@ -223,7 +208,6 @@
           }
 
           this.listBox.style.paddingTop = topItem.offsetTop - offset + "px";
-
           this.listBoxPaddingTop = topItem.offsetTop - offset
         }
       }
@@ -237,14 +221,12 @@
     renderList() {
       let startIndex = this.dataListOffsetIndex;
       startIndex = startIndex < 0 ? 0 : startIndex;
-      let endIndex = startIndex + 30;
+      let endIndex = startIndex + this.listLength;
 
       // let listHtml = this.dataList.slice(startIndex, endIndex).reduce((acc, item) => {
       //   return acc + `<div class="xy index-${item.uid}" data-index="${item.uid}"> ${item.text} </div>`
       // }, '');
-
       // this.listBox.innerHTML = listHtml;
-
 
       this.dataList.slice(startIndex, endIndex).forEach((item, index) => {
         let itemEle = this.listElements[index];
@@ -258,7 +240,8 @@
     }
 
     createListElement() {
-      this.listElements = [...new Array(20)].map(() => {
+
+      this.listElements = [...new Array(this.listLength)].map(() => {
         let div = document.createElement('DIV')
         div.className = "xy"
         this.listBox.appendChild(div)
@@ -277,7 +260,7 @@
     }))
   }
 
-  let vs = new VirturalScroll(box, listBox, createList(1000))
+  let vs = new VirturalScroll(box, listBox, createList(100))
 </script>
 
 </html>
