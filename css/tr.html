@@ -1,0 +1,81 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    @keyframes move {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, 50px, 0);
+      }
+    }
+    
+    .css3 {
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: 20%;
+      margin-left: -25px;
+      animation: move 2s linear infinite;
+    }
+    
+    .css3-t {
+      background-color: blue;
+      margin-top: 200px;
+      animation: none;
+      transition: margin-top 3s ease;
+    }
+    
+    .z {
+      width: 200px;
+      height: 200px;
+      padding: 50px;
+    }
+    
+    .y {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #111;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="z">
+    <div class="y">y</div>
+  </div>
+
+
+
+  <p class="css3" id="css3"></p>
+  <p class="css3 css3-t" id="css3-t" style="margin-top: 400px;"></p>
+  <script>
+    var _t = document.getElementById('css3');
+    var _t_t = document.getElementById('css3-t');
+    _t.addEventListener('webkitAnimationIteration', function() {
+      console.log('触发循环')
+    })
+    _t.addEventListener('webkitAnimationEnd', function() {
+      console.log('触发结束')
+    })
+    _t.addEventListener('webkitAnimationStart', function() {
+      console.log('触发开始')
+    })
+    _t.addEventListener('webkitTransitionEnd', function() {
+      console.log('触发过度动画结束')
+    })
+
+    document.addEventListener('click', function() {
+      _t_t.style.marginTop = '400px';
+    })
+  </script>
+</body>
+
+</html>

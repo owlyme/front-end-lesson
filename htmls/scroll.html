@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>scroll</title>
+  <style>
+    body {
+      padding: 30px;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .container {
+      height: 240px;
+      border: 1px solid #222222;
+      overflow-y: auto;
+    }
+    
+    #header {
+      height: 0;
+      transition: height 0.3s;
+    }
+    
+    #con>div {
+      /* height: 60px; */
+      border: 4px solid #53af94;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box" class="container">
+    <div id="header"></div>
+    <div id="con">
+
+    </div>
+  </div>
+</body>
+<script>
+  let box = document.getElementById("box")
+  let listBox = document.getElementById("con")
+
+
+  // function throlle(cb, interval = 200) {
+  //   let timer = null;
+  //   let prevTime = Date.now();
+  //   return (arg) => {
+  //     let now = Date.now();
+  //     let leftTime = interval - (now - prevTime);
+
+  //     clearTimeout(timer);
+
+  //     if (leftTime <= 0) {
+  //       prevTime = now;
+  //       cb(arg)
+  //     } else {
+  //       timer = setTimeout(() => {
+  //         prevTime = now;
+  //         cb(arg)
+  //       }, leftTime)
+  //     }
+  //   }
+  // }
+
+
+
+  function throlle(callback, delay) {
+    let startTime = 0;
+    let timer = null;
+    return function() {
+      //使用new Date().getTime(),这样首次操作一定会执行
+      let endTime = new Date().getTime();
+      //多次触发时执行clear,这样最后只会执行一次
+      clearTimeout(timer);
+      //第一次减法一定大雨delay,确保首次操作一定会执行
+      if (endTime - startTime > delay) {
+        callback()
+        startTime = new Date().getTime();
+      } else {
+        //这里的目的是让最后一次执行
+        timer = setTimeout(() => {
+          callback()
+        }, delay)
+      }
+    }
+  }
+
+  class VirturalScroll {
+    constructor(box, listBox, dataList) {
+      this.box = box
+      this.listBox = listBox
+      this.dataList = dataList
+      this.dataListOffsetIndex = 0
+      this.topCachedHeight = 120
+      this.offsetTop = 0
+      this.listBoxPaddingTop = 0
+      this.listElementHeightsMap = {}
+      this.header = document.getElementById("header")
+
+      this.init()
+    }
+
+    init() {
+      this.createListElement()
+      this.getBoxHeight()
+      this.watchBoxScroll()
+      this.renderList()
+      this.getContainerHeight()
+    }
+
+    getContainerHeight() {
+      this.maxContainerHeight = 240 * 0.8
+    }
+
+    listElementHeights(index, height) {
+      this.listElementHeightsMap[index] = height
+    }
+
+    watchBoxScroll() {
+      let box = this.box;
+      let deltaPrevY = 0;
+      let deltaCurrY = 0;
+      let deltaY = 0;
+
+      let tR = throlle(() => {
+
+        if (deltaY > 0) {
+          // 向下滚动
+        } else if (deltaY < 0) {
+          // 向上滚动
+        }
+
+        if (deltaY > 0 && this.offsetTop > (this.listBoxPaddingTop + this.boxHeight)) {
+          console.log("rerender down ", this.offsetTop, this.listBoxPaddingTop + this.boxHeight)
+          this.setListBoxOffset(deltaY > 0 ? "down" : "up");
+          this.renderList();
+        } else if (deltaY < 0 && this.offsetTop <= (this.listBoxPaddingTop + this.boxHeight)) {
+          console.log("rerender up ", this.offsetTop, (this.listBoxPaddingTop + this.boxHeight))
+          this.setListBoxOffset(deltaY > 0 ? "down" : "up");
+          this.renderList();
+        }
+
+
+      }, 10);
+
+      box.addEventListener("scroll", (e) => {
+        deltaCurrY = this.offsetTop = e.target.scrollTop;
+        deltaY = deltaCurrY - deltaPrevY;
+        deltaPrevY = deltaCurrY;
+
+
+        tR()
+      })
+    }
+
+    getNextRederIndex() {
+      let boxSize = this.box.getBoundingClientRect();
+      let list = document.querySelectorAll('.xy') || [];
+      let topItem = null
+      let index = 0
+
+      for (let i = 0; i < list.length; i++) {
+        let item = list[i];
+        let itemSize = item.getBoundingClientRect();
+        this.listElementHeights(item.dataset.index, itemSize.height)
+
+        if (itemSize.bottom >= boxSize.top) {
+          topItem = item;
+          index = i;
+          break;
+        }
+      }
+
+      index = index > 5 ? index - 5 : 0
+      topItem = list[index];
+      return {
+        nextStartIndex: Number(topItem.dataset.index),
+        offsetTop: topItem.offsetTop,
+        topItem
+      }
+    }
+
+    setListBoxOffset(type) {
+      let {
+        nextStartIndex,
+        offsetTop,
+        topItem
+      } = this.getNextRederIndex()
+
+      // let currentPT = this.offsetTop;
+      // this.topCachedHeight += currentPT;
+      // let firstChildHeight = this.getFirstLiHeight();
+      // let cacheH = firstChildHeight;
+      // currentPT = currentPT > cacheH ? currentPT - cacheH : currentPT;
+      // let leftH = currentPT % firstChildHeight;
+
+      // this.dataListOffsetIndex = Math.ceil(this.offsetTop / firstChildHeight);
+      // this.listBox.style.paddingTop = currentPT - leftH - firstChildHeight + "px";
+
+      if (type === 'down') {
+        this.dataListOffsetIndex = nextStartIndex;
+        this.listBox.style.paddingTop = offsetTop + "px";
+        this.listBoxPaddingTop = offsetTop
+      } else {
+        this.dataListOffsetIndex = nextStartIndex;
+
+        if (!nextStartIndex) {
+          this.listBox.style.paddingTop = 0 + "px";
+          this.listBoxPaddingTop = 0
+        } else {
+          let offset = 0;
+          let cacheCount = 10;
+
+          while (cacheCount && this.dataListOffsetIndex) {
+            cacheCount--;
+            this.dataListOffsetIndex--;
+            offset += (this.listElementHeightsMap[this.dataListOffsetIndex] || 0);
+          }
+
+          this.listBox.style.paddingTop = topItem.offsetTop - offset + "px";
+
+          this.listBoxPaddingTop = topItem.offsetTop - offset
+        }
+      }
+
+    }
+
+    getFirstLiHeight() {
+      return this.listBox.querySelector(".xy").offsetHeight;
+    }
+
+    renderList() {
+      let startIndex = this.dataListOffsetIndex;
+      startIndex = startIndex < 0 ? 0 : startIndex;
+      let endIndex = startIndex + 30;
+
+      // let listHtml = this.dataList.slice(startIndex, endIndex).reduce((acc, item) => {
+      //   return acc + `<div class="xy index-${item.uid}" data-index="${item.uid}"> ${item.text} </div>`
+      // }, '');
+
+      // this.listBox.innerHTML = listHtml;
+
+
+      this.dataList.slice(startIndex, endIndex).forEach((item, index) => {
+        let itemEle = this.listElements[index];
+        itemEle.dataset.index = item.uid;
+        itemEle.innerText = item.text
+      })
+    }
+
+    getBoxHeight() {
+      this.boxHeight = this.box.offsetHeight
+    }
+
+    createListElement() {
+      this.listElements = [...new Array(20)].map(() => {
+        let div = document.createElement('DIV')
+        div.className = "xy"
+        this.listBox.appendChild(div)
+        return div
+      })
+    }
+
+  }
+
+
+  let createList = (length = 10, item = {}) => {
+    return [...new Array(length)].map((i, index) => ({
+      text: index + "  index " + (index % 2 ? "qw qwe qe qe qe q eq eq e q eq eqeq we we we w ew " : "231"),
+      // text: index + "  index ",
+      uid: index
+    }))
+  }
+
+  let vs = new VirturalScroll(box, listBox, createList(1000))
+</script>
+
+</html>
