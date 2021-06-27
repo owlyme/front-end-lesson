@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <input id="file" type="file" />
+    </div>
+    <div>
+        <pre id="content"></pre>
+    </div>
+    <img src="" height="200" alt="Image preview...">
+    <script>
+        function displayContent(str) {
+            document.getElementById("content").innerText = str;
+        }
+
+        function setImg(blob) {
+            const preview = document.querySelector('img');
+            preview.src = blob
+        }
+
+        function readFile(file, type = 'string') {
+            const reader = new FileReader()
+            reader.onload = (res) => {
+                console.log(res)
+                if (type === 'string') {
+                    displayContent(reader.result)
+                    exportFile("789", reader.result)
+                } else if (type === 'blob') {
+                    setImg(reader.result)
+                    exportFile("456", reader.result)
+                } else if (type === "buffer") {
+                    //  上传时
+                    displayContent(reader.result)
+                    setImg(reader.result)
+
+                }
+            }
+            if (type === 'string') {
+                reader.readAsText(file)
+            } else if (type === 'blob') {
+                reader.readAsDataURL(file)
+            } else if (type === 'buffer') {
+                reader.readAsArrayBuffer(file, 'utf-8')
+            }
+
+        }
+        const file = document.getElementById("file")
+        file.onchange = (evt) => {
+            console.log(evt)
+            const file = evt.target.files[0]
+            readFile(file, 'string')
+                // readFile(file, 'blob')
+                // readFile(file, 'buffer')
+        }
+
+        function fakeClick(obj) {
+            const ev = document.createEvent('MouseEvents');
+            ev.initMouseEvent(
+                'click',
+                true,
+                false,
+                window,
+                0,
+                0,
+                0,
+                0,
+                0,
+                false,
+                false,
+                false,
+                false,
+                0,
+                null,
+            );
+            obj.dispatchEvent(ev);
+        }
+
+        function simulateClick(element) {
+            var evt = new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            });
+            element.dispatchEvent(evt);
+        }
+
+        function exportFile(fileName, strData) {
+            const urlObject = window.URL || window.webkitURL || window;
+            const exportBlob = new Blob([strData]);
+            const saveLink = document.s(
+                'http://www.w3.org/1999/xhtml',
+                'a',
+            );
+            saveLink.href = urlObject.createObjectURL(exportBlob);
+            saveLink.download = fileName;
+            simulateClick(saveLink);
+        }
+    </script>
+</body>
+
+</html>
