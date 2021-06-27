@@ -25,6 +25,7 @@ export class Component {
             dom: this,
             ...this.prevFiber,
 
+
         })
         requestIdleCallback(performTask)
     }
