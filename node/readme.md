@@ -6,6 +6,8 @@
 5. require
 6. module exports
 
+## util
+
 ## process
 1. 资源: CPU 内存
   - process.memoryUsage()
@@ -49,3 +51,42 @@
   - buffer.copy()
   - Buffer.concat
   - Buffer.isBuffer()
+8. FS
+  - 文件的权限 rwx | rwx | rwx
+  - readFile
+  - writeFile
+  - appendFile
+  - copyFile
+  - watchFile(path, {interval : ms}, cbs)
+  - unwatchFile
+  - open read write  (flag)
+  - access // 操作权限
+  - accessSync
+  -
+  - stat
+  - mkdir(path, [options], () => {}) // options=> {recursie: true}
+  - mkdirSync
+  - rmdir(path, [options], () => {}) // options=> {recursie: true}
+  - readdir
+
+  ## commonjs 规范
+  - module
+  - module.exports === exports // true
+  - require
+  - require.main === module // require.mian === moudle.parent
+    - 入口模块 为true
+    - 否则 为 false
+
+  ## 模块加载流程
+  - 路径分析
+  - 文件定位
+  - 编译执行
+
+9. EventEmitter 类
+  - 浏览器环境下的事件循环
+    1. 自上而下执行所有的同步代码
+    2. 在执行的过程中将遇到的宏任务和微任务添加到对应的任务列队中
+    3. 当同步代码执行结束后，执行满足条件的微任务回调
+    4. 微任务列队执行完毕后执行所有满足条件的宏任务回调
+    5. 循环事件环操作
+    * *每执行一个宏任务后会立即检查微任务列队
