@@ -1,6 +1,6 @@
 {
     "name": "pkg-a",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "> TODO: description",
     "main": "lib/pkg-a.js",
     "scripts": {
@@ -25,6 +25,6 @@
         "url": "https://github.com/owlyme/front-end-lesson/issues"
     },
     "dependencies": {
-        "pkg-b": "^1.0.0"
+        "pkg-b": "^1.0.1"
     }
 }
