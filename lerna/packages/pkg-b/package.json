@@ -1,0 +1,26 @@
+{
+  "name": "pkg-b",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "owlyme <1148452777@qq.com>",
+  "homepage": "https://github.com/owlyme/front-end-lesson#readme",
+  "license": "ISC",
+  "main": "lib/pkg-b.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/owlyme/front-end-lesson.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/owlyme/front-end-lesson/issues"
+  }
+}
