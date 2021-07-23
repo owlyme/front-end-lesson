@@ -4,14 +4,14 @@ const bodyParser = require('koa-bodyparser');
 const staticServe = require("koa-static");
 const koaBody = require('koa-body')
 
-module.exports = function (app) {
+module.exports = function(app) {
     // 允许跨域
     app.use(cors({
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-        maxAge: 2592000000, // 30天
-    }))
-    // 静态资源路径
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+            maxAge: 2592000000, // 30天
+        }))
+        // 静态资源路径
     app.use(staticServe(path.resolve(__dirname, "../public")));
 
     // 上传
@@ -25,14 +25,15 @@ module.exports = function (app) {
             file.path = path.resolve(__dirname,'../public/upload/', file.name)
           },
         }
-      }));
+    }));
 
     // post
     app.use(bodyParser());
-
-    // 参数统一
-    app.use(async (ctx, next) => {
+    let count = 0
+        // 参数统一
+    app.use(async(ctx, next) => {
         console.log(ctx.method, ctx.url)
+
         let reqParam = {}
 
         if (ctx.method === 'GET') {

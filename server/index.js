@@ -15,6 +15,6 @@ app.use((ctx) => {
     }
 });
 
-app.listen(port, () => {
+const listener = app.listen(port, () => {
     console.log(`server is running: localhost:${port}`)
 });
