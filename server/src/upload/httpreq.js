@@ -12,49 +12,58 @@ const path = require("path")
 //     });
 //   });
 
+console.log(process.cwd())
 
-const boundaryKey = '----WebKitFormBoundary' + new Date().getTime();
-
-const postData = JSON.stringify({
-    'name': 'Hello World!'
-});
-const req = http.request({
-    host: '127.0.0.1',
-    port: 3000,
-    method: 'POST',
-    path: '/upload',
-    headers: {
-        'Content-Type': 'multipart/form-data; boundary=' + boundaryKey
-    },
-    
-}, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
+function upload ({
+    name = '',
+    filePath = ''
+}) {
+    if (!fs.existsSync(filePath)) {
+        return console.log(`${filePath} 不存在`)
+    }
+    const fileName = name || path.parse(filePath).base
+    const boundaryKey = '----WebKitFormBoundary' + new Date().getTime();
+    const req = http.request({
+        host: '127.0.0.1',
+        port: 3000,
+        method: 'POST',
+        path: '/upload',
+        headers: {
+            'Content-Type': 'multipart/form-data; boundary=' + boundaryKey
+        }
+    }, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+            console.log('No more data in response.');
+        });
     });
-    res.on('end', () => {
-        console.log('No more data in response.');
+
+    req.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
     });
-});
 
-req.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-});
+    req.write(
+        '--' + boundaryKey + '\r\n' +
+        'Content-Disposition: form-data; name="file"; filename='+ fileName +'\r\n' +
+        'Content-Type:application/*\r\n\r\n'
+    );
 
-// 将数据写入请求正文
-// req.write(postData);
-// req.end();
+    var fileStream = fs.createReadStream(path.resolve(process.cwd(), filePath), { bufferSize: 1024 * 1024 * 50 });
+    fileStream.pipe(req, { end: false });
+    fileStream.on('end', function () {
+        req.end('\r\n--' + boundaryKey + '--');
+    });
+}
 
-req.write(
-    '--' + boundaryKey + '\r\n' +
-    'Content-Disposition: form-data; name="file"; filename=123.js\r\n' +
-    'Content-Type:application/x-javascript\r\n\r\n'
-);
+upload({
+    name: 'xu.js',
+    filePath: './abc.js'
+})
 
-var fileStream = fs.createReadStream(path.resolve(__dirname, './abc.js'), { bufferSize: 1024 * 1024 * 50 });
-fileStream.pipe(req, { end: false });
-fileStream.on('end', function () {
-    req.end('\r\n--' + boundaryKey + '--');
-});
+
+module.exports = upload

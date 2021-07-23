@@ -6,10 +6,12 @@ const router = new Router();
 DB.createTable("app")
 
 router.post('/wk/app/list', async (ctx, next) => {
-    const productId = ctx.reqParam.productId
+    const pid = ctx.reqParam.pid
     const data = DB.getList('app', (item) => {
-        return productId == item.productId
+        return pid == item.pid
     })
+
+    console.log(pid, ctx.reqParam)
     ctx.body = createResBody({
         records: data,
         total: data.length || 0

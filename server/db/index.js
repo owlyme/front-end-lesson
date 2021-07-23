@@ -28,7 +28,7 @@ class Db {
         return id
     }
     getDetail(tablekey, id) {
-        return this.data[tablekey].find((item) => item.id === id)
+        return this.data[tablekey].find((item) => item.id == id)
     }
     getList(tablekey, cb = f => f) {
         if (cb) {
@@ -38,7 +38,7 @@ class Db {
     }
 
     remove(tablekey, id) {
-        const index = this.data[tablekey].findIndex(item => item.id === id);
+        const index = this.data[tablekey].findIndex(item => item.id == id);
         if (index > -1) {
             this.data[tablekey].splice(index, 1);
             this.saveData()
@@ -48,12 +48,11 @@ class Db {
     }
 
     update(tablekey, data) {
-        const index = this.data[tablekey].findIndex(item => item.id === data.id);
+        const index = this.data[tablekey].findIndex(item => item.id == data.id);
         if (index > -1) {
             this.data[tablekey].splice(index, 1, data);
             this.saveData()
         }
-
         return data.id
     }
 
@@ -62,14 +61,14 @@ class Db {
 
         this.timer = setTimeout(() => {
             console.log(JSON.stringify(this.data))
-            fs.writeFile(__dirname + "/data.json", JSON.stringify(this.data), () => {
+            fs.writeFile(__dirname + "/data.json", JSON.stringify(this.data, null, 2), () => {
                 console.log("done")
             })
         }, 300)
     }
 
     findById(tablekey, id) {
-        return this.data[tablekey].find(item => item.id === id)
+        return this.data[tablekey].find(item => item.id == id)
     }
 }
 
