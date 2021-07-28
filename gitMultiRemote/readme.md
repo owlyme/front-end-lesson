@@ -9,7 +9,7 @@ git@github.com:owlyme/ls.git -->
 ### 推送到对应仓库
 1. git push <name> [branch]
 
-### 推送到对应仓库
+### 拉取到对应仓库
 1. git pull <name> [branch]
 
 ### 优化,同时提交到多个远程仓库
