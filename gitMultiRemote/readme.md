@@ -3,8 +3,11 @@ git@github.com:owlyme/ls.git -->
 
 ## git同时连接多个远程仓库
 
-### 添加仓库
+### 添加仓库地址
 1. git remote add <name> <addr>
+
+### 移除已添加的仓库地址
+1. 
 
 ### 推送到对应仓库
 1. git push <name> [branch]
