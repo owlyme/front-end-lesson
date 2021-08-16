@@ -6,8 +6,8 @@ const routers = require('./src')
 const app = new Koa();
 const port = 3000;
 
-middlewares(app);
-routers(app);
+// middlewares(app);
+// routers(app);
 
 app.use((ctx) => {
     if (ctx.status == 404) {

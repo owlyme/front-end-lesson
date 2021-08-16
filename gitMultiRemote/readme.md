@@ -7,7 +7,8 @@ git@github.com:owlyme/ls.git -->
 1. git remote add <name> <addr>
 
 ### 移除已添加的仓库地址
-1. 
+1. git remote rm name  # 删除远程仓库
+2. git remote rename origin release  # 修改仓库名
 
 ### 推送到对应仓库
 1. git push <name> [branch]
