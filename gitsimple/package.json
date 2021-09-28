@@ -1,0 +1,13 @@
+{
+    "name": "y",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "pub": "node index.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "git": "^0.1.5",
+        "simple-git": "^2.45.1"
+    }
+}

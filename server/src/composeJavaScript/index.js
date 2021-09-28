@@ -1,10 +1,9 @@
-const path = require("path")
-const fs = require("fs")
 const Router = require('@koa/router');
 const router = new Router();
 
 const publicPath = "../../public";
 
+<<<<<<< HEAD
 router.get('compose/js', async(ctx, next) => {
     // const composeJs = (ctx.query.js || '')
     // .split(";")
@@ -27,10 +26,23 @@ router.get('compose/js', async(ctx, next) => {
         // rs2.pipe(ctx.res);
         // rs.pipe(ctx.res)
 
+=======
+router.get('/parse/workflow', async (ctx, next) => {
+    
+
+    console.log(234);
+    ctx.body = "1";
+>>>>>>> 82404ec109b1834bb6adb1b07e50c223778aea15
 
 
 });
 
+<<<<<<< HEAD
 module.exports = function(app) {
+=======
+
+
+module.exports = function (app) {
+>>>>>>> 82404ec109b1834bb6adb1b07e50c223778aea15
     app.use(router.routes()).use(router.allowedMethods());
 }

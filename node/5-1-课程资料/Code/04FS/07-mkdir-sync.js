@@ -20,4 +20,3 @@ function makeDirSync (dirPath) {
   }
 }
 
-makeDirSync('a\\b\\c')
