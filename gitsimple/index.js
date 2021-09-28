@@ -5,7 +5,6 @@ const gitPath = path.join(__dirname, "../", )
 const git = simpleGit(gitPath, { binary: 'git' });
 
 async function run() {
-
     let res = await git.add(".")
     console.log(1, res)
 
@@ -15,7 +14,10 @@ async function run() {
     res = await git.status()
     console.log(3, res)
 
-    res = await git.push("origin", "master")
+    res = await git.branch()
+    console.log(4, res)
+
+    // res = await git.push("origin", "master")
     console.log(4, res)
 }
 
