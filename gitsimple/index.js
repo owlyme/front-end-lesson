@@ -8,7 +8,7 @@ async function run() {
 
     let res = await git.branch()
     console.log(0, res)
-    console.log(res.current)
+    console.log(chalk.green(res.current))
 
     res = await git.add(".")
     console.log(1, res)
