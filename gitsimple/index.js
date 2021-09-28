@@ -5,6 +5,7 @@ const gitPath = path.join(__dirname, "../", )
 const git = simpleGit(gitPath, { binary: 'git' });
 
 async function run() {
+
     let res = await git.add(".")
     console.log(1, res)
 
