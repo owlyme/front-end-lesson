@@ -22,7 +22,7 @@ async function run() {
         res = await git.push("origin", "master")
         console.log(4, res)
     } catch (err) {
-        console.log(err)
+        console.log("err", err)
     }
 
 }
